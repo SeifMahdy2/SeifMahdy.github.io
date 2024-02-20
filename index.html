@@ -8,26 +8,26 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
-  <h1>Make a Donation</h1>
-  <form style="width: 50%; margin: auto; padding: 20px;" id="payment-form">
-    <label for="card-element">
-      Credit or debit card
-    </label>
-    <div id="card-element"></div>
-    <div id="card-errors" role="alert"></div>
+      <form style="width: 50%; margin: auto; padding: 20px;" id="payment-form">
+            <h1>Make a Donation</h1>
+            <label for="card-element">
+                  Credit or debit card
+            </label>
+            <div id="card-element"></div>
+            <div id="card-errors" role="alert"></div>
 
-    <label for="email">
-      Email address
-    </label>
-    <input type="email" id="email" name="email" required>
+            <label for="email">
+                  Email address
+            </label>
+            <input type="email" id="email" name="email" required>
 
-    <label for="amount">
-      Donation amount:
-    </label>
-    <input type="number" id="amount" name="amount" required>
+            <label for="amount">
+                  Donation amount:
+            </label>
+            <input type="number" id="amount" name="amount" required>
 
-    <button type="submit">Submit Payment</button>
-  </form>
+            <button type="submit">Submit Payment</button>
+      </form>
 
   <script>
     // Initialize EmailJS
@@ -57,8 +57,8 @@
         const donationAmount = document.getElementById('amount').value;
 
         const templateParams = {
-          to_name: 'Recipient Name', // Change this to the recipient's name
-          from_name: 'Your Name', // Change this to your name
+          to_name: email, 
+          from_name: "Seif Waleed",
           message: `Thank you for your donation of $${donationAmount}.`
         };
 
