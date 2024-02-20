@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-      <title>Home</title>
-      <body>
-<h1>Hello World</h1>
-<p>hosted with GitHub Pages.</p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Donate to Support Us</h2>
+    <form id="donation-form">
+      <label for="email">Enter your email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="amount">Enter donation amount:</label>
+      <input type="number" id="amount" name="amount" required>
+      <button type="submit">Donate via PayPal</button>
+    </form>
+  </div>
+  <script src="https://www.paypal.com/sdk/js?client-id=AZXUGzNWBxgf-0i7m87HTJkDXm78tGtDVRBP1INRB0szSyGuNvzfAGwvaFYfPRpCeWrsM1vuKm1O-q6e"></script>
+  <script src="script.js"></script>
 </body>
 </html>
