@@ -54,21 +54,23 @@
       } else {
         // Send email using EmailJS
         const donorEmail = document.getElementById('email').value;
+        console.log(donorEmail);
         const donationAmount = document.getElementById('amount').value;
-
+        
         const templateParams = {
-            from_name: "Seif Waleed",
-            to_name: donorEmail, 
-            message: `Thank you for your donation of $${donationAmount}$.`
-        };
-
-        // Send email using EmailJS API
-        emailjs.send('service_4jqjxbu', 'template_nooygqv', templateParams)
-          .then(function(response) {
-            console.log('Email sent successfully:', response);
-            alert('Thank you for your donation!');
-          }, function(error) {
-            console.error('Error sending email:', error);
+              from_name: "Seif Waleed",
+              to_name: donorEmail, 
+              message: `Thank you for your donation`
+            };
+            
+            // Send email using EmailJS API
+            emailjs.send('service_4jqjxbu', 'template_nooygqv', templateParams)
+            .then(function(response) {
+                  console.log('Email sent successfully:', response);
+                  alert('Thank you for your donation!');
+            }, function(error) {
+                  console.error('Error sending email:', error);
+                  console.log(donorEmail);
             alert('There was an error sending the email. Please try again later.');
           });
       }
