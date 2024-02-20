@@ -9,13 +9,21 @@
 <body>
   <div class="container">
     <h2>Donate to Support Us</h2>
-    <form id="donation-form">
-      <label for="email">Enter your email:</label>
-      <input type="email" id="email" name="email" required>
-      <label for="amount">Enter donation amount:</label>
-      <input type="number" id="amount" name="amount" required>
-      <button type="submit">Donate via PayPal</button>
-    </form>
+    <form
+  action="https://formspree.io/f/xpzvdewk"
+  method="POST"
+>
+  <label>
+    Your email:
+    <input type="email" name="email">
+  </label>
+  <label>
+    Your message:
+    <textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+  <button type="submit">Send</button>
+</form>
   </div>
   <script src="https://www.paypal.com/sdk/js?client-id=AZXUGzNWBxgf-0i7m87HTJkDXm78tGtDVRBP1INRB0szSyGuNvzfAGwvaFYfPRpCeWrsM1vuKm1O-q6e"></script>
   <script src="script.js"></script>
