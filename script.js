@@ -1,35 +1,30 @@
-// Set your publishable key
 const stripe = Stripe('pk_test_51OlviYBBJNuvkvoKJLj9hFOyszuDnRKQme0tYLb7IwtLrSlUyu8Kz4R1oKsrWj7uDP42VpZ1Ing6PYE1x8M2pGd400PQSaHQdB');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
 
-// Create an instance of elements
-const elements = stripe.elements();
+    document.getElementById('payment-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
 
-// Create an instance of card Element
-const cardElement = elements.create('card');
+      const { token, error } = await stripe.createToken(cardElement);
 
-// Add an instance of the card Element into the `card-element` div
-cardElement.mount('#card-element');
+      if (error) {
+        const errorElement = document.getElementById('card-errors');
+        errorElement.textContent = error.message;
+      } else {
+        // Get the donation amount from the input field
+        const donationAmount = document.getElementById('amount').value;
+        
+        // Open user's email client with prefilled data
+        const donorEmail = document.getElementById('email').value;
+        sendEmail(donorEmail, donationAmount);
+        alert('Thank you for your donation!');
+      }
+    });
 
-// Handle form submission
-document.getElementById('payment-form').addEventListener('submit', async function(event) {
-  event.preventDefault();
-
-  // Disable the submit button to prevent multiple submissions
-  this.querySelector('button').disabled = true;
-
-  const { token, error } = await stripe.createToken(cardElement);
-
-  if (error) {
-    // Display error message to user
-    const errorElement = document.getElementById('card-errors');
-    errorElement.textContent = error.message;
-
-    // Re-enable the submit button
-    this.querySelector('button').disabled = false;
-  } else {
-    // Send the token to your server
-    // Here you would typically use fetch() or XMLHttpRequest to send the token to your server
-    console.log(token);
-    alert('Payment successful!');
-  }
-});
+    function sendEmail(email, amount) {
+      const subject = encodeURIComponent('Donation Confirmation');
+      const body = encodeURIComponent(`Thank you for your donation of $${amount}.`);
+      const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
+      window.location.href = mailtoLink;
+    }
