@@ -1,88 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Stripe Donation Form</title>
-      <script src="https://js.stripe.com/v3/"></script>
-      <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-      </script>
-      <script type="text/javascript">
-      (function(){
-            emailjs.init({
-            publicKey: "3hDUbAtW4JrkNeosl",
-            });
-      })();
-      </script>
-      <script> src = "script.js"</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stripe Donation Form</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
-      <h1>Make a Donation</h1>
-      <form style=" width: 50%;  margin: auto; padding: 20px;" id="payment-form">
-      <label for="card-element">
-            Credit or debit card
-      </label>
-      <div id="card-element"></div>
-      <div id="card-errors" 
-      role="alert">
-      </div>
+  <h1>Make a Donation</h1>
+  <form style="width: 50%; margin: auto; padding: 20px;" id="payment-form">
+    <label for="card-element">
+      Credit or debit card
+    </label>
+    <div id="card-element"></div>
+    <div id="card-errors" role="alert"></div>
 
-      <label for="email">
+    <label for="email">
       Email address
-      </label>
-      <input 
-      type="email" 
-      id="email" 
-      name="email" 
-      required>   
+    </label>
+    <input type="email" id="email" name="email" required>
 
-      <label for="amount">
-            Donation amount
-      </label>
-      <input 
-      type="number" 
-      id="amount" 
-      name="amount" 
-      required>
+    <label for="amount">
+      Donation amount
+    </label>
+    <input type="number" id="amount" name="amount" required>
 
-      <button onclick="sendMail()"
-      type="submit">
-      Submit Payment
-      </button>
+    <button type="submit">Submit Payment</button>
   </form>
 
   <script>
+    // Initialize EmailJS
+    (function(){
+      emailjs.init('Seif Mahdy');
+    })();
+
+    // Initialize Stripe
     const stripe = Stripe('pk_test_51OlviYBBJNuvkvoKJLj9hFOyszuDnRKQme0tYLb7IwtLrSlUyu8Kz4R1oKsrWj7uDP42VpZ1Ing6PYE1x8M2pGd400PQSaHQdB');
     const elements = stripe.elements();
     const cardElement = elements.create('card');
     cardElement.mount('#card-element');
 
+    // Handle form submission
     document.getElementById('payment-form').addEventListener('submit', async function(event) {
       event.preventDefault();
 
+      // Create token with Stripe
       const { token, error } = await stripe.createToken(cardElement);
 
       if (error) {
         const errorElement = document.getElementById('card-errors');
         errorElement.textContent = error.message;
       } else {
-        // Get the donation amount from the input field
-        const donationAmount = document.getElementById('amount').value;
-        
-        // Open user's email client with prefilled data
+        // Send email using EmailJS
         const donorEmail = document.getElementById('email').value;
-        sendEmail(donorEmail, donationAmount);
-        alert('Thank you for your donation!');
+        const donationAmount = document.getElementById('amount').value;
+
+        const templateParams = {
+          to_name: 'Recipient Name', // Change this to the recipient's name
+          from_name: 'Your Name', // Change this to your name
+          message: `Thank you for your donation of $${donationAmount}.`
+        };
+
+        // Send email using EmailJS API
+        emailjs.send('service_4jqjxbu', 'template_nooygqv', templateParams)
+          .then(function(response) {
+            console.log('Email sent successfully:', response);
+            alert('Thank you for your donation!');
+          }, function(error) {
+            console.error('Error sending email:', error);
+            alert('There was an error sending the email. Please try again later.');
+          });
       }
     });
-
-    function sendEmail(email, amount) {
-      const subject = encodeURIComponent('Donation Confirmation');
-      const body = encodeURIComponent(`Thank you for your donation of $${amount}.`);
-      const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
-      window.location.href = mailtoLink;
-    }
   </script>
 </body>
 </html>
